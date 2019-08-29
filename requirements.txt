@@ -1,0 +1,17 @@
+USING AutoIt:
+
+Phase 1:
+--Copy a folder to another location - Reflect the day in the name of the backup
+--Set permissions using both icacls and chmod
+--Check for error level on failures
+--Has a log file that include what is happening, date, time, and errors
+    --Echo >> log.txt
+
+Phase 2:
+--Add variables
+--Add a for command to work on multiple backup locations
+    --If backup already exists create additional
+--Delete folders older than 7 days
+--Hide the root backup folder
+--Zip the folder using 7zip
+--Add Comments in script to explain what each section does
