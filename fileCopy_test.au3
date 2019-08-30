@@ -8,7 +8,7 @@ Local $sSourceFilePath = "C:\AUTOIT-PROJ-AUG2019\Soup_ofTheDay"
  Local $sDestPath = "C:\AUTOIT-PROJ-AUG2019\SOTD_Archive"
     
 ;Execute the copy function.
-Local $iCopyStatus = FileCopy($sSourceFilePath, $sDestPath, $FC_OVERWRITE + $FC_CREATEPATH)
+Local $iCopyStatus = FileCopy($sSourceFilePath, $sDestPath, $FC_CREATEPATH)
     
 ;Display the status after checking the returned value.
  If $iCopyStatus Then
