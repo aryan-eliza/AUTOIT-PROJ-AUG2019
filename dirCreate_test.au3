@@ -1,6 +1,9 @@
 #include "prettyConsoleLog.au3"
 #include <MsgBoxConstants.au3>
 #include <date.au3>
+dim $printDate
+dim $path
+
     ;~ prettyConsoleLog("Let's replace the slashes in the date:" &$date)
     ;~ prettyConsoleLog("This is your source directory:" &$sourceDir)
     ;~ prettyConsoleLog("This is the folder were we'll create the backup directory:" &$backupDir)
@@ -23,14 +26,40 @@ Func getFolderOrFileName(Const $path)
     Return $tokens[UBound($tokens) -1]
 EndFunc
 
-BackupInCurrentFolder ("C:\AUTOIT-PROJ-AUG2019\Soup_ofTheDay", "C:\AUTOIT-PROJ-AUG2019\SOTD_Archive")
 
-
-;testing get file dateTime and print to msg box in fuction 
-Func GetFileTimeDate ("C:\AUTOIT-PROJ-AUG2019\SOTD_Archive\" & FileGetTime, $printDate)
-    Local $printDate = MsgBox($MB_SYSTEMMODAL, "", "Timestamp:" & @CRLF & FileGetTime("C:\AUTOIT-PROJ-AUG2019\SOTD_Archive", $FT_STRING=1))
-    FileGetTime ("C:\AUTOIT-PROJ-AUG2019\SOTD_Archive", $FT_CREATED = 1, $FT_STRING = 1)
-    ;MsgBox($MB_SYSTEMMODAL, "", "Timestamp:" & @CRLF & FileGetTime("C:\AUTOIT-PROJ-AUG2019\SOTD_Archive", $FT_STRING=1))
+;get file dateTime and print to msg box in fuction 
+Func GetFileTimeDate ($filePath)
+    $printDate = FileGetTime( $filePath, $FT_CREATED = 1, $FT_STRING = 1 )
+    MsgBox($MB_SYSTEMMODAL, "", "Timestamp:" & @CRLF & $printDate)
+    Local $tokens = StringSplit($path, "\")
+    Return $tokens[UBound($tokens) -1]
 EndFunc
 
-GetFileTimeDate ("C:\AUTOIT-PROJ-AUG2019\SOTD_Archive" & FileGetTime & $printDate)
+;GetFileTimeDate ("C:\AUTOIT-PROJ-AUG2019\SOTD_Archive\*")
+
+;Recursive function to list sub directories in msg box 
+$filePath = ("C:\AUTOIT-PROJ-AUG2019\SOTD_Archive\*.*")
+Global $GetFileTimeDate = FileGetTime( $filePath, $FT_CREATED = 1, $FT_STRING = 1 )
+SearchArchiveDir()
+
+Func SearchArchiveDir()
+    Local $hSearch = FileFindFirstFile("C:\AUTOIT-PROJ-AUG2019\SOTD_Archive\*.*")
+
+    If $hSearch = -1 Then
+        MsgBox($MB_SYSTEMMODAL, "", "Error: No files/directories matched the search pattern.")
+        Return False
+    EndIf
+    Local $sFileName = "", $iResult = 0
+
+    While 1
+        $sFileName = FileFindNextFile($hSearch)
+        If @error Then ExitLoop
+
+        $iResult = MsgBox(BitOR($MB_SYSTEMMODAL, $MB_OKCANCEL), "", "File: " & $sFileName & @CRLF & "Date Created: " & $GetFileTimeDate)
+        If $iResult <> $IDOK Then ExitLoop 
+    WEnd
+
+    FileClose($hSearch)
+EndFunc   
+
+BackupInCurrentFolder ("C:\AUTOIT-PROJ-AUG2019\Soup_ofTheDay", "C:\AUTOIT-PROJ-AUG2019\SOTD_Archive")
