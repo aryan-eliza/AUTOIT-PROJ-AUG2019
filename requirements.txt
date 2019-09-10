@@ -26,8 +26,15 @@ Full Requirements reordered:
 >>>>>>>>>>>>>>>>>>>--Add variables 
 --Check for error level on failures
 --Has a log file that include what is happening, date, time, and errors
-    --Echo >> log.txt
 --Set permissions using both icacls and chmod
---Hide the root backup folder
---Zip the folder using 7zip
+>>--Hide the root backup folder
+>>--Zip the folder using 7zip
 >>--Add Comments in script to explain what each section does
+
+Remaining 
+--Delete folders older than 7 days
+--Check for error level on failures
+--Has a log file that include what is happening, date, time, and errors
+
+
+????????--Set permissions using both icacls and chmod
